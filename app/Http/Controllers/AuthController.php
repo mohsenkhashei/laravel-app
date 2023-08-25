@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
@@ -25,9 +26,8 @@ class AuthController extends Controller
     /**
      * Display a registration form.
      *
-     * @return \Illuminate\Http\Response
      */
-    public function register(): Response
+    public function register(): View
     {
         return view('auth.register');
     }
@@ -35,8 +35,6 @@ class AuthController extends Controller
     /**
      * Store a new user.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request): Response
     {
@@ -62,9 +60,8 @@ class AuthController extends Controller
     /**
      * Display a login form.
      *
-     * @return \Illuminate\Http\Response
      */
-    public function login(): Response
+    public function login(): View
     {
         return view('auth.login');
     }
@@ -72,8 +69,6 @@ class AuthController extends Controller
     /**
      * Authenticate the user.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
     public function authenticate(Request $request): Response|RedirectResponse
     {
@@ -97,9 +92,8 @@ class AuthController extends Controller
     /**
      * Display a dashboard to authenticated users.
      *
-     * @return \Illuminate\Http\Response
      */
-    public function dashboard(): Response|RedirectResponse
+    public function dashboard(): View|RedirectResponse
     {
         if (Auth::check()) {
             return view('auth.dashboard');
@@ -114,15 +108,13 @@ class AuthController extends Controller
     /**
      * Log out the user from application.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login')
-            ->withSuccess('You have logged out successfully!');;
+            ->withSuccess('You have logged out successfully!');
     }
 }
