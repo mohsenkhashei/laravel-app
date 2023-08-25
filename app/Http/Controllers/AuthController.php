@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,7 +27,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function register()
+    public function register(): Response
     {
         return view('auth.register');
     }
@@ -37,7 +38,7 @@ class AuthController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         $request->validate([
             'name' => 'required|string|max:250',
@@ -63,7 +64,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function login()
+    public function login(): Response
     {
         return view('auth.login');
     }
@@ -74,7 +75,7 @@ class AuthController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): Response|RedirectResponse
     {
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -98,7 +99,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function dashboard()
+    public function dashboard(): Response|RedirectResponse
     {
         if (Auth::check()) {
             return view('auth.dashboard');
