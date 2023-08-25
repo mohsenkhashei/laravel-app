@@ -22,7 +22,6 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-
     Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
 
@@ -33,7 +32,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/products/update/{product}', [ProductsController::class, 'update'])->name('products.update');
 
     Route::delete('/products/{product}', [ProductsController::class, 'destroy'])->name('products.destroy');
-
 });
 
 
