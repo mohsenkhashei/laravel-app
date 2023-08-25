@@ -36,7 +36,7 @@ class AuthController extends Controller
      * Store a new user.
      *
      */
-    public function store(Request $request): Response
+    public function store(Request $request): Response|RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:250',
