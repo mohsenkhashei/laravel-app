@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductsController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +16,21 @@ use App\Http\Controllers\Api\ProductsController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+//Route::prefix('v1')->group(function () {
+//    Route::apiResource('/products', ProductsController::class);
+//});
+Route::fallback(function () {
+    abort(404, 'API resource not found');
 });
 
-Route::prefix('v1')->group(function () {
+Route::controller(AuthController::class)->prefix('v1')->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
     Route::apiResource('/products', ProductsController::class);
 });

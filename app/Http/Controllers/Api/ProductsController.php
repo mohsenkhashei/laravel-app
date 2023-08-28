@@ -7,14 +7,12 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductsResource;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 
-class ProductsController extends Controller
+class ProductsController extends AuthController
 {
-    public function __construct()
-    {
-    }
-
+    
     /**
      * Return all products
      */
@@ -65,5 +63,5 @@ class ProductsController extends Controller
 
         return response()->noContent();
     }
-    
+
 }
