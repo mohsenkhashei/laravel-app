@@ -6,6 +6,7 @@
 - Unit Testing CRUD
 - Central Login for Web & API (JWT)
 - Custom Command to Create User And Product `user:create --name= --email= --password=`
+- Migrations
 
 ## Usage
 
