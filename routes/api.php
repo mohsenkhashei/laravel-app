@@ -32,5 +32,7 @@ Route::controller(AuthController::class)->prefix('v1')->group(function () {
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
+});
+Route::middleware(['auth'])->prefix('v1')->group(function () {
     Route::apiResource('/products', ProductsController::class);
 });

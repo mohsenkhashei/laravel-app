@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:web'])->group(function () {
     Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
 
