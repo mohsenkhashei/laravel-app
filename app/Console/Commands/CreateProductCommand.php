@@ -62,8 +62,8 @@ class CreateProductCommand extends Command
             ]);
             $this->info('Product Created Successfully!!');
             $this->info($productTemplate);
-            return 1;
         }
+        return 1;
     }
 
 
