@@ -5,7 +5,9 @@
 - CRUD App with web and API
 - Unit Testing CRUD
 - Central Login for Web & API (JWT)
-- Custom Command to Create User And Product `user:create --name= --email= --password=`
+- Custom Command:`php artisan`
+    - Create User `user:create --name= --email= --password=` or `user:create` it will generate user randomly.
+    - Create Product `product:create` it's interactive to generate product
 - Migrations
 
 ## Usage
