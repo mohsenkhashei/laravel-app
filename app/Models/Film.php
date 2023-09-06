@@ -18,11 +18,21 @@ class Film extends Model
 
     public function actors()
     {
-        return $this->hasMany(FilmActors::class, 'actor_id');
+        return $this->hasMany(FilmActors::class, 'film_id');
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(FilmCategory::class, 'category_id');
+        return $this->hasOne(FilmCategory::class, 'film_id');
+    }
+
+    public function text()
+    {
+        return $this->belongsTo(FilmText::class, 'film_id');
+    }
+
+    public function inventory()
+    {
+        return $this->hasOne(Inventory::class, 'film_id');
     }
 }

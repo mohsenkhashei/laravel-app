@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,11 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::controller(TestController::class)->group(function () {
+    Route::get('/test', [TestController::class, 'index'])->name('test.index');
+
+});
+
 
 Route::middleware(['auth:web'])->group(function () {
     Route::get('/products', [ProductsController::class, 'index'])->name('products.index');

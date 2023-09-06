@@ -10,4 +10,8 @@ class Actor extends Model
     protected $table = 'actor';
     protected $primaryKey = 'actor_id';
 
+    public function getActor()
+    {
+        return $this->hasMany(FilmActors::class);
+    }
 }

@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class FilmCategory extends Model
 {
     protected $table = 'film_category';
-    public function film()
+    public function getFilm()
     {
-        return $this->hasOne(Film::class, 'film_id');
+        return $this->belongsTo(Film::class, 'film_id');
     }
 
-    public function category()
+    public function getCategory()
     {
-        return $this->hasMany(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
