@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\FilmController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,11 @@ Route::get('/', function () {
 });
 Route::controller(TestController::class)->group(function () {
     Route::get('/test', [TestController::class, 'index'])->name('test.index');
+
+});
+
+Route::controller(FilmController::class)->group(function () {
+    Route::get('/film', [FilmController::class, 'index'])->name('film.index');
 
 });
 
