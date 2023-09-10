@@ -22,12 +22,11 @@ Route::get('/', function () {
 });
 Route::controller(TestController::class)->group(function () {
     Route::get('/test', [TestController::class, 'index'])->name('test.index');
-
+    Route::get('/test/demo', [TestController::class, 'demo'])->name('test.demo');
 });
 
 Route::controller(FilmController::class)->group(function () {
     Route::get('/film', [FilmController::class, 'index'])->name('film.index');
-
 });
 
 

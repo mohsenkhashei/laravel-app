@@ -8,17 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class FilmActors extends Model
 {
     protected $table = 'film_actor';
-    public function getFilm()
+
+    public function film()
     {
         return $this->belongsTo(Film::class, 'film_id');
     }
 
-    public function getActor()
+    public function actor()
     {
         return $this->belongsTo(Actor::class, 'actor_id');
     }
-
-
 
 
 }

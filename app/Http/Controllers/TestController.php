@@ -4,21 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Film;
+use App\Models\FilmActors;
 use App\Models\Inventory;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Http\Request;
 
 
 class TestController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
 //        $country = CountryModel::all();
 //        $country = Country::orderBy('country_id', 'desc')->take(2)->get();
 //        foreach($country as $t) {
 //            dump($t->country);
 //        }
-        $film = Film::with('language', 'actors','inventory.store.getStaff')->first();
+        $film = Film::with('language', 'actors', 'inventory.store.getStaff')->first();
         $inventory = Inventory::find($film->film_id);
         dump($film);
         dump($inventory->film->title);
@@ -31,7 +36,7 @@ class TestController extends Controller
         dump(count($film->actors));
 //
         foreach ($film->actors as $actor) {
-            dump($actor->getActor->first_name);
+            dump($actor->actor->first_name);
         }
 //        dump($film->category);
 
@@ -63,7 +68,6 @@ class TestController extends Controller
 //            ->orderBy('diploma.created_at', 'desc');
 
 
-
 //        return Datatables::of($query)
 //            ->filterColumn('full_name', function ($query, $keyword) {
 //                $keywords = trim($keyword);
@@ -75,5 +79,46 @@ class TestController extends Controller
 
 
     }
-    public function demo() {}
+
+    public function demo(Request $request)
+    {
+        if ($request->ajax()) {
+            $query = Film::with('language');
+
+            return DataTables::of($query)
+                ->addColumn('language', function ($film) {
+                    return $film->language->name;
+                })
+                ->addColumn('releaseYear', function ($film) {
+                    return $film->release_year;
+                })
+                ->addColumn('length', function ($film) {
+                    $minutes = $film->length;
+                    $hours = floor($minutes / 60);
+                    $min = $minutes - ($hours * 60);
+                    return $hours . ":" . $min;
+                })
+                ->addColumn('specialFeature', function ($film) {
+                    return $film->special_features;
+                })
+                ->addColumn('actors', content: function ($film) {
+                    $actors = DB::table('film_actor')->join('actor', 'film_actor.actor_id', '=', 'actor.actor_id')
+                        ->where('film_actor.film_id', $film->film_id)->get()->toArray();
+                    $list = '';
+                    foreach ($actors as $actor) {
+                        $list .= $actor->last_name . ' ';
+                    }
+                    return $list;
+                })
+                ->addColumn('category', function ($film) {
+                    return $film->categories->getCategory->name;
+                })
+                ->addColumn('text', function ($film) {
+                    return $film->text->description;
+                })
+                ->make(true);
+        }
+        return view('test.index');
+//        dd($query->first()->actors[0]->actor->first_name);
+    }
 }
