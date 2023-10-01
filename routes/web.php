@@ -23,6 +23,8 @@ Route::get('/', function () {
 Route::controller(TestController::class)->group(function () {
     Route::get('/test', [TestController::class, 'index'])->name('test.index');
     Route::get('/test/demo', [TestController::class, 'demo'])->name('test.demo');
+    Route::get('/test/clubs', [TestController::class, 'clubs'])->name('test.clubs');
+    Route::get('/test/fetch', [TestController::class, 'fetchData'])->name('fetch');
 });
 
 Route::controller(FilmController::class)->group(function () {

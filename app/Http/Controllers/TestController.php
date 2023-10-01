@@ -121,4 +121,16 @@ class TestController extends Controller
         return view('test.index');
 //        dd($query->first()->actors[0]->actor->first_name);
     }
+
+
+    public function clubs()
+    {
+        return view('test.clubs');
+    }
+
+    public function fetchData()
+    {
+        $films = DB::table('film')->simplePaginate(15);
+        return response()->json($films);
+    }
 }
