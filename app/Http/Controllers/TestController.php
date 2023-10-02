@@ -130,7 +130,7 @@ class TestController extends Controller
 
     public function fetchData()
     {
-        $films = DB::table('film')->simplePaginate(15);
+        $films = DB::table('language')->simplePaginate(2);
         return response()->json($films);
     }
 }

@@ -22,9 +22,22 @@
     <div id="app">
 
         <div v-for="club in clubs" :key="club.id" class="club-card">
-            @{{ club.title }}
-            <img :data-src="club.title" class="lazy-load-image"/>
+            @{{ club.name }}
+            <img :data-src="club.name" class="lazy-load-image"/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </div>
+        <button @click="filterByCategory(2)">2006</button>
+        <form @submit.prevent="submitData">
+            <input v-model="inputValue" type="text" placeholder="Enter data"/>
+            <button type="submit">Submit</button>
+        </form>
     </div>
 
     @push('scripts')
@@ -39,6 +52,7 @@
                         currentPage: 1,
                         isLoading: false,
                         endOfData: false,
+                        inputValue: '',
                     }
                 },
                 created() {
@@ -86,6 +100,37 @@
                             }
                         });
                     },
+                    filterByCategory(category) {
+                        this.clubs = this.clubs.filter(function (item) {
+                            return item.language_id === category;
+                        });
+                        console.log(this.clubs);
+                    },
+                    submitData() {
+                        // Create an object with the input value
+                        const data = {
+                            value: this.inputValue,
+                        };
+
+                        // Make an AJAX request using the fetch API (you can also use Axios or other libraries)
+                        fetch('/your-api-endpoint', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        })
+                            .then(response => response.json())
+                            .then(responseData => {
+                                // Handle the response from the server
+                                console.log('Response:', responseData);
+                            })
+                            .catch(error => {
+                                // Handle any errors that occur during the request
+                                console.error('Error:', error);
+                            });
+                    },
+
                 },
 
             })
