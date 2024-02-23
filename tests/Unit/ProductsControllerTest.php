@@ -11,6 +11,8 @@ use Tests\TestCase;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Illuminate\View\View as IlluminateView;
 
 //vendor/bin/phpunit --filter testIndexMethodReturnsView
 //vendor/bin/phpunit tests/Unit/ProductsControllerTest.php
@@ -18,6 +20,8 @@ use Illuminate\Support\Facades\Validator;
 class ProductsControllerTest extends TestCase
 {
     use RefreshDatabase;
+    public $mockedView;
+
 
     public function testIndexMethodReturnsView()
     {
@@ -63,6 +67,7 @@ class ProductsControllerTest extends TestCase
        $controller = new ProductsController();
 
        // Call the store method with the real request object
+       echo 'validate & store data \n';
        $response = $controller->store($request);
 
        // Assert that the response is a redirect
@@ -72,5 +77,29 @@ class ProductsControllerTest extends TestCase
        $this->assertEquals(route('products.index'), $response->getTargetUrl());
        // Assert that the success message is flashed
        $this->assertStringContainsString('success', $response->getSession()->get('success'));
+       echo 'redirect to index page & set success message \n';
+
+    }
+
+
+   public function testEditMethodReturnsViewWithProductData()
+   {
+        $t = Mockery::mock(IlluminateView::class);
+
+        // Mock a Product instance
+        $product = Mockery::mock(Product::class);
+
+        // Set up expectations on the mocked view
+        $product->shouldReceive('edit')->with($product)->andReturn($t);
+
+        // Create an instance of the controller
+        $controller = new ProductsController();
+
+        // Call the edit method with the mocked Product
+        $response = $controller->edit($product);
+
+        // Assert that the response is a View instance
+        $this->assertInstanceOf(IlluminateView::class, $response);
+        echo 'redirect to edit page & set success message \n';
    }
 }
