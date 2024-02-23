@@ -9,7 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\View as IlluminateView;
@@ -20,6 +23,7 @@ use Illuminate\View\View as IlluminateView;
 class ProductsControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     public $mockedView;
 
 
@@ -102,4 +106,30 @@ class ProductsControllerTest extends TestCase
         $this->assertInstanceOf(IlluminateView::class, $response);
         echo 'redirect to edit page & set success message \n';
    }
+   use SoftDeletes;
+
+
+   public function testDeleteMethodDeletesProduct()
+   {
+        // Mock a Product instance
+        $product = Mockery::mock(Product::class);
+        // Create an instance of the controller
+        $controller = new ProductsController();
+
+        // Call the store method with the real request object
+        $response = $controller->destroy($product);
+
+        // Assert that the response is a redirect
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+
+        // Assert that the redirect points to the products index route
+        $this->assertEquals(route('products.index'), $response->getTargetUrl());
+        // Assert that the success message is flashed
+        $this->assertStringContainsString('success', $response->getSession()->get('success'));
+        echo 'redirect to index page & set success message \n';
+
+   }
+
+
+
 }
